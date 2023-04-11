@@ -6,29 +6,18 @@
 	
 	<!-- package -->
 	<groupId>com.gdu</groupId>
-	<artifactId>app01</artifactId>
+	<artifactId>app02</artifactId>
 	
-	<!-- project -->
-	<name>01_IoC_Container</name>
 	
-	<!-- project 를 war파일로 만든 후 Server Tomcat에 배포 -->
-	<!-- 결과물 (산출물 == deploy file (배포파일)) == war 파일 (jar 파일도 존재함) -->
+	<name>02_Mvc</name>
+	
+	
 	<packaging>war</packaging>
 	
-	<!-- 산출물(deploy file) 버전 == 1.1.0 -->
+	
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	
-	<!--
-		속성(버전 관리) 자바 버전 1.6 
-		properties 태그에 작성한 버전들은 모두 el( ${} ) 문법으로 사용할 수 있다.
-		${java-version} 				== 11로 사용된다.
-		${org.springframework-version}  == 5.3.3로 사용된다.
-		${org.aspectj-version}			== 1.9.6
-		${org.slf4j-version}			== 1.7.30
-		
-		SpringFramework 버전을 2021년 01월 버전으로 정하고,
-		aspectj와 slf4j의 버전을 2021년 01월 버전 또는 직전 버전으로 사용하였다.
-	-->
+	
 	<properties>
 		<java-version>11</java-version>
 		<org.springframework-version>5.3.3</org.springframework-version>
@@ -36,31 +25,23 @@
 		<org.slf4j-version>1.7.30</org.slf4j-version>
 	</properties>
 	
-	<!--
-		Maven 프로젝트 
-		
-		1. mvnrepository.com의 중앙저장소(central)에서 각종 jar를 저장해 둔다
-		2. pom.xml 파일에 등록된 dependency(태그)에 의해서 필요한 jar 파일이 중앙저장소(central)에서 다운로드된다.
-	
-		3. pom.xml의 dependency를 수정하면 jar 파일이 다운로드 되므로 pom.xml 수정 후 기다려야 한다.
-		4. 다운로드 된 jar 파일들은 C:/Users/계정명/.m2 디렉터리에 저장된다.
-		5. jar 파일에 문제가 발생한 경우,
-			1) STS 끄기.
-			2) C:/Users/계정명/.m2 디렉터리 지우기.
-			3) USB메모리에 미리 백업한 C:/Users/계정명/.m2 디렉터리를 복사한다.
-			4) 다시 STS 실행.
-			5) 프로젝트 우클릭 - [Maven] - [Update Project]를 실행한다.
-	-->
 	
 	<dependencies>
-	
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.18.18</version>
+		    <scope>provided</scope>
+		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8 -->
 		<dependency>
 		    <groupId>com.oracle.database.jdbc</groupId>
 		    <artifactId>ojdbc8</artifactId>
 		    <version>21.1.0.0</version>
 		</dependency>
-	
+		
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -151,7 +132,7 @@
 		    <artifactId>javax.servlet.jsp-api</artifactId>
 		    <version>2.3.3</version>
 		    <scope>provided</scope>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
@@ -166,7 +147,6 @@
 			<scope>test</scope>
 		</dependency>        
 	</dependencies>
-	
     <build>
         <plugins>
             <plugin>
