@@ -2,7 +2,7 @@ package com.gdu.app01.xml06;
 
 public class Calculator {
 	
-	// no bield
+	// no field
 	
 	// default constructor
 

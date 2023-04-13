@@ -27,30 +27,70 @@
 				str += '<li>' + resData.age + '</li>';
 				str += '</ul>';
 				$('#result').append(str);	// ul태그를 id가 result인 div 태그 밑에 추가한다.
+			},
+			error: function(jqXHR){
+				$('#result').text(jqXHR.responseText);
 			}
 		})
 	
+	}
+	
+	function fn2(){
+		$('#result').empty();
+		$.ajax({
+			// 요청
+			type: 'get',
+			url: '${contextPath}/first/ajax2',
+			data: $('#frm').serialize(),
+			// 응답
+			dataType: 'json',
+			success: function(resData){
+				let str = '<ul>';
+				str += '<li>' + resData.name + '</li>';
+				str += '<li>' + resData.age + '</li>';
+				str += '</ul>';
+				$('#result').append(str);	// ul태그를 id가 result인 div 태그 밑에 추가한다.
+			}
+		})
+	}
+	
+	function fn3(){
+		
+		$('#result').empty();
+		
+		$.ajax({
+			type: 'get',
+			url: '${contextPath}/first/ajax3',
+			data: $('#frm').serialize(),
+			dataType: 'json',
+			success: function(resData){
+				let str = '<ul>';
+				str += '<li>' + resData.name + '</li>';
+				str += '<li>' + resData.age + '</li>';
+				str += '</ul>';
+				$('#result').append(str);	
+			}
+		})
 	}
 </script>
 </head>
 <body>
 
-	<div>
-		<form id="frm">
+	<form id="frm">
+		<div>
 			<label for="name">이름</label>
 			<input id="name" name="name">
-		</form>
-	</div>
-	<div>
-		<form id="frm">
+		</div>
+		<div>
 			<label for="age">나이</label>
 			<input id="age" name="age">
-		</form>
-	</div>
-	<div>
-		<input type="button" value="전송1" onclick="fn1()">
-		<input type="button" value="전송2" onclick="fn2()">
-	</div>
+		</div>
+		<div>
+			<input type="button" value="전송1" onclick="fn1()">
+			<input type="button" value="전송2" onclick="fn2()">
+			<input type="button" value="전송3" onclick="fn3()">
+		</div>
+	</form>
 	
 	<hr>
 	

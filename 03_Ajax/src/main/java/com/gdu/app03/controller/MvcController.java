@@ -18,4 +18,11 @@ public class MvcController {
 		return "first";
 	}
 	
+	@GetMapping("/second.do")
+	public String second() {
+		return "second";
+	}
+	
+	
+	
 }

@@ -4,21 +4,31 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gdu.test.domain.Person;
+import com.gdu.test.service.IPersonService;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @Controller
 public class MyController {
+	
+	private IPersonService personService;
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String index() {
 		return "index";
 	}
 	
-	@RequestMapping("/list.do")
+	@GetMapping("/list.do")
 	public String list() {
 		return "board/list";
 	}
@@ -38,6 +48,12 @@ public class MyController {
 		return "board/detail";
 	}
 	
+	@ResponseBody
+	@GetMapping(value="/test/person", produces=MediaType.APPLICATION_JSON_VALUE)
+	public Person person(Person person) {
+		
+		return personService.execute(person);
+	}
 	
 	
 

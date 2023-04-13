@@ -13,6 +13,20 @@
 	$(function(){
 		$('#title').text('Hello World');
 	})
+	function fn1(){
+		$('#frm').empty();
+		
+		$.ajax({
+			type: 'get',
+			url: '${contextPath}/test/person',
+			data: $('#frm').serialize(),
+			dataType: 'json',
+			success: function(resData){
+				$('#box1').text(resData.name);
+				$('#box2').text(resData.age);
+			}
+		})
+	}
 </script>
 </head>
 <body>
@@ -33,9 +47,26 @@
 	<div><a href="${contextPath }/detail.do?age=24">상세보기3</a></div>
 	<div><a href="${contextPath }/detail.do?name=한글&age=24">상세보기4</a></div>
 
+	<hr>
+	
+	<div>
+		<form id="frm">
+			<div>
+				<label for="name">이름</label>
+				<input id="name" name="name">
+			</div>
+			<div>
+				<label for="age">나이</label>
+				<input id="age" name="age">
+			</div>
+			<div>
+				<input type="button" value="전송" onclick="fn1()">
+			</div>
+		</form>
+	</div>
 
-
-
+	<div id="box1"></div>
+	<div id="box2"></div>
 
 
 
