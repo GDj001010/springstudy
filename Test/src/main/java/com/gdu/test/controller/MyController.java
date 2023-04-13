@@ -23,7 +23,7 @@ public class MyController {
 		return "board/list";
 	}
 	
-	@GetMapping
+	@GetMapping("/detail.do")
 	public String detail(HttpServletRequest request, Model model) {
 		
 		Optional<String> opt = Optional.ofNullable(request.getParameter("name"));
@@ -35,7 +35,7 @@ public class MyController {
 		model.addAttribute("name", name);
 		model.addAttribute("age", age);
 		
-		return "board/datail";
+		return "board/detail";
 	}
 	
 	
