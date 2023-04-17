@@ -17,8 +17,8 @@ public class BoardController {
 	private BoardService boardService;	// Spring Container에 저장된 Service 객체를 사용할 곳은 Controller이다.
 
 	@GetMapping("/list.do")
-	public String list(Model model) {	// Model : jsp로 전달(forward)할 데이터(속성, Attribute)를 저장한다.
-		
+	public String list(Model model) {  // Model : jsp로 전달(forward)할 데이터(속성, attribute)를 저장한다.
+		System.out.println(boardService.getBoardList());
 		return "board/list";
 	}
 	
