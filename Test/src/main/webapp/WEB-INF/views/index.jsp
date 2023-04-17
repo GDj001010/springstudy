@@ -14,7 +14,7 @@
 		$('#title').text('Hello World');
 	})
 	function fn1(){
-		$('#frm').empty();
+		
 		
 		$.ajax({
 			type: 'get',

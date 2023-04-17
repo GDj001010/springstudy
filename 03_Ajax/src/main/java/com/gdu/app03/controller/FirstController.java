@@ -30,7 +30,7 @@ public class FirstController {
 	@GetMapping(value="/first/ajax1", produces="application/json")	// value 속성만 입력할 땐 value를 생략해도 되지만 ajax 응답 타입이 json이기 때문에 produces 속성을 입력해준다, produces 속성엔 응답 데이터의 MIME TYPE을 작성해준다
 	public Person ajax1(HttpServletRequest request,
 						HttpServletResponse response) {				// "Jackson" 라이브러리가 반환값 Person 객체를 자동으로 JSON 데이터로 변환한다.
-		return firstService.execute1(request, response);						// "redirect:" 가 없기 떄문에 forward로 되면서 (new FirstServiceImpl()).execute1(request); 코드가 jsp로 인식한다.
+		return firstService.execute1(request, response);			// "redirect:" 가 없기 떄문에 forward로 되면서 (new FirstServiceImpl()).execute1(request); 코드가 jsp로 인식한다.
 																	// 	ajax은 페이지를 안 바꾸고 동일한 페이지에서 요청하고 값을 받아온다.
 	}
 	
