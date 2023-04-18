@@ -33,7 +33,7 @@ public class BoardController {
 	
 	
 	@PostMapping("/add.do")
-	public String add(BoardDTO board, Model model) {	// 파라미터값 받는 방법 3가지  1. HttpServletRequest (통일), 2. @RequestParam, 3. BoardDTO board
+	public String add(BoardDTO board) {	// 파라미터값 받는 방법 3가지  1. HttpServletRequest (통일), 2. @RequestParam, 3. BoardDTO board
 		boardService.addBoard(board);		// addBoard() 메소드의 호출 결과인 int 값(0 또는 1)은 사용하지 않았다.
 		
 		return "redirect:/board/list.do";	// 목록보기로 redirect 하겠다 (redirect 경로는 항상 mapping으로 작성한다.)
