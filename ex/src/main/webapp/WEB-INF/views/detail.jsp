@@ -21,7 +21,7 @@
 	<!-- boardDTO -->
 	<h1>a, location</h1>
 	<h1>${boardDTO.boardNo }</h1>
-	<h1>${boardDTO.title</h1>
+	
 	
 	<!-- board -->
 	<h1>form</h1>
