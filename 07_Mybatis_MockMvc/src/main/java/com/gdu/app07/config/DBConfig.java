@@ -16,16 +16,15 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-
-@PropertySource(value={"classpath:application.properties"})		// properties 파일좀 읽어와라, application.properties 파일의 속성을 읽어 오자!
-@EnableTransactionManagement	// transaction을 허용한다.
+@PropertySource(value={"classpath:application.properties"})  // application.properties 파일의 속성을 읽어 오자!
+@EnableTransactionManagement                                 // 트랜잭션 처리를 허용한다.
 @Configuration
 public class DBConfig {
-	
-		
+
 	@Autowired
-	private Environment env;	// 환경 ?
-	// HikariConfig Bean 를 먼저 만들어줘야한다.
+	private Environment env;
+	
+	// HikaryConfig Bean
 	@Bean
 	public HikariConfig hikariConfig() {
 		HikariConfig hikariConfig = new HikariConfig();
@@ -36,45 +35,32 @@ public class DBConfig {
 		return hikariConfig;
 	}
 	
-	// DriverManagerDataSource 가 있었지만 Hikari가 대신 해준다. DataSource = connectionPool 해주는 아이.
-	// DriverManagerDataSource 대신 HikariDataSource Bean을 만들어준다.
-	@Bean(destroyMethod="close") // hikari 사용방법
-	public HikariDataSource dataSource() {
+	// HikariDataSource Bean
+	@Bean(destroyMethod="close")
+	public HikariDataSource hikariDataSource() {
 		return new HikariDataSource(hikariConfig());
 	}
 	
-	
-	// SqlSessionFactory Bean	구글링 해보기
+	// SqlSessionFactory Bean
 	@Bean
-	public SqlSessionFactory factory() throws Exception {
+	public SqlSessionFactory sqlSessionFactory() throws Exception {
 		SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
-		bean.setDataSource(dataSource());
+		bean.setDataSource(hikariDataSource());
 		bean.setConfigLocation(new PathMatchingResourcePatternResolver().getResource(env.getProperty("mybatis.config-location")));
-		bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("mybatis.mapper-locations"));
-		return bean.getObject(); // factory bean에서 object 꺼내면 팩토리가 만들어진다.
+		bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(env.getProperty("mybatis.mapper-locations")));
+		return bean.getObject();
 	}
 	
-	
-	// SqlSessionTemplate Bean	(기존의 SqlSession)
+	// SqlSessionTemplate Bean (기존의 SqlSession)
 	@Bean
-	public SqlSessionTemplate template() throws Exception {
-		return new SqlSessionTemplate(factory());
+	public SqlSessionTemplate sqlSessionTemplate() throws Exception {
+		return new SqlSessionTemplate(sqlSessionFactory());
 	}
-	
 	
 	// TransactionManager Bean
 	@Bean
-	public TransactionManager transactionManager () {
-		return new DataSourceTransactionManager(dataSource());
+	public TransactionManager transactionManager() {
+		return new DataSourceTransactionManager(hikariDataSource());
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }
