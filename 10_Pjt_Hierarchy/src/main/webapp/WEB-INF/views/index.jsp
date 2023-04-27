@@ -14,15 +14,9 @@
 <body>
 
 	<div>
-		<a href="${contextPath}/employees/pagination.do">페이징</a>
-	</div>
-	<div>
-		<a href="${contextPath}/employees/scroll.page">스크롤</a>
+		<a href="${contextPath}/bbs/list.do">BBS</a>
 	</div>
 	
-	<div>
-		<a href="${contextPath }/employees/search.do">사원 조회 화면으로 이동</a>
-	</div>
 
 </body>
 </html>
