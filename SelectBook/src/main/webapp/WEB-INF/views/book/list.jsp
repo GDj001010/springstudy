@@ -12,6 +12,8 @@
 <script src="${contextPath }/resources/js/lib/jquery-3.6.4.min.js"></script>
 </head>
 <body>
+
+	<h1>사원목록</h1>
 	
 	<div>
 		<table border="1">
@@ -34,17 +36,18 @@
 			<c:forEach items="${employeeList}" var="emp" varStatus="vs">
 				<tbody>
 					<tr>
-						<td>${totalPage - vs.index()}</td>
-						<td>${emp.employeeId }</td>
-						<td>${emp.firstName}${emp.lastName}</td>
-						<td>${emp.email }</td>
-						<td>${emp.phoneNumber }</td>
-						<td>${emp.hireDate }</td>
-						<td>${emp.jobId }</td>
-						<td>${emp.salary }</td>
-						<td>${emp.commissionPct }</td>
-						<td>${emp.managerId }</td>
-						<td>${emp.deptDTO.departmentName }</td>
+						<td>${vs.index + 1}</td>
+						<td>${emp.employeeId}</td>
+						<td>${emp.firstName} ${emp.lastName}</td>
+						<td>${emp.email}</td>
+						<td>${emp.phoneNumber}</td>
+						<td>${emp.hireDate}</td>
+						<td>${emp.jobId}</td>
+						<td>${emp.salary}</td>
+						<td>${emp.commissionPct}</td>
+						<td>${emp.managerId}</td>
+						<td>${emp.deptDTO.departmentId}</td>
+						<td>${emp.deptDTO.departmentName}</td>
 					</tr>
 				</tbody>
 			</c:forEach>
