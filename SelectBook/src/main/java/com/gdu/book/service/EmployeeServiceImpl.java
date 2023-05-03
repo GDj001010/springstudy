@@ -5,7 +5,6 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -31,6 +30,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		int totalRecord = employeeListMapper.getTotalRecord();
 		
 		HttpSession session = request.getSession();
+		Optional<Object> opt2 = Optional.ofNullable(session.getAttribute("recordPerPage"));
+		int recordPerPage = (int)opt2.orElse("10");
+		
+		pageUtil.setPageUtil(page, totalRecord, recordPerPage);
+		
+		
+		
 		
 		
 		
