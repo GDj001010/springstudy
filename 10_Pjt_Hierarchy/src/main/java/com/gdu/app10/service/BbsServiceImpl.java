@@ -52,8 +52,6 @@ public class BbsServiceImpl implements BbsService {
 	@Override
 	public int insertBbs(HttpServletRequest request) {
 		
-		
-		
 		// 파라미터 writer, title
 		String writer = request.getParameter("writer");
 		String title = request.getParameter("title");

@@ -51,6 +51,11 @@
 					</tr>
 				</tbody>
 			</c:forEach>
+				<tfoot>
+					<tr>
+						<td colspan="12">{pagination}</td>
+					</tr>
+				</tfoot>
 		</table>
 	</div>
 
