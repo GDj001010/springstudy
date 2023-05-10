@@ -1,6 +1,7 @@
 package com.gdu.app11.batch;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +32,8 @@ public class RemoveWrongfileScheduler {
 		List<AttachDTO> attachList = uploadMapper.getAttachListInYersterday();
 		
 		// List<AttachDTO> -> List<Path>로 변환하기 (Path : 경로 + 파일명)
-		List<Path> pathList = null;
+		List<Path> pathList = new ArrayList<Path>();;
 		if(attachList != null && attachList.isEmpty() == false) {
-			pathList = new ArrayList<Path>();
 			for(AttachDTO attachDTO : attachList) {
 				pathList.add(new File(attachDTO.getPath(), attachDTO.getFilesystemName()).toPath());	// Path 만드는 법 : File객체.toPath();
 				if(attachDTO.getHasThumbnail() == 1) {
@@ -46,7 +46,23 @@ public class RemoveWrongfileScheduler {
 		String yesterdayPath = myFileUtil.getYesterdayPath();
 		
 		// 어제 업로드 된 파일 목록(HDD에서 확인) 중에서 DB에는 정보가 없는 파일 목록
+		File dir = new File(yesterdayPath);
+		File[] wrongFiles = dir.listFiles(new FilenameFilter() {
+			
+			@Override
+			public boolean accept(File dir, String name) {	// accept : 허용 > true를 반환하면 File[] wrongFiles에 포함된다. 매개변수 File dir, String name
+				// pathList 			 :  DB에 있는 목록이다.		- 이미 Path
+				// File dir, String name :  HDD에 있는 파일이다.	- File.toPath() 처리로 Path로 변경 후 둘을 비교한다.
+				return pathList.contains(new File(dir, name).toPath()) == false;
+			}
+		});
 		
+		// File[] wrongFiles 모두 삭제
+		if(wrongFiles != null && wrongFiles.length != 0) {
+			for(File wrongFile : wrongFiles) {
+				wrongFile.delete();
+			}
+		}
 		
 	}
 	
