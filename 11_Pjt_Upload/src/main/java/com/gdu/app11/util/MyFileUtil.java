@@ -48,29 +48,35 @@ public class MyFileUtil {
 		// UUID란 네트워크상에서 중복되지 않은 ID를 만들기 위한 값.
 		return UUID.randomUUID().toString().replace("-", "") + "." + extName ;
 	}
+
+	// String tempPath 만들기
+	public String getTempPath() {
+		
+		// 임시 파일이 저장될 경로는 어딘가.
+		return "/storage" + sep + "temp";
+		
+	}
+	
+	// String tempfileName (임시파일 이름) zip 파일
+	public String getTempfileName() {
+		return UUID.randomUUID().toString().replace("-", "") + ".zip";
+	}
+	
+	// String yesterdayPath 만들기
+	public String getYesterdayPath() {
+		LocalDate date = LocalDate.now();
+		date.minusDays(1);	// 1일 전
+		return "/storage" + sep + date.getYear() + sep + String.format("%02d", date.getMonthValue()) + sep + String.format("%02d", date.getDayOfMonth());
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
