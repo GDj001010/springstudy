@@ -50,7 +50,7 @@ public class RemoveWrongfileScheduler {
 		File[] wrongFiles = dir.listFiles(new FilenameFilter() {
 			
 			@Override
-			public boolean accept(File dir, String name) {	// accept : 허용 > true를 반환하면 File[] wrongFiles에 포함된다. 매개변수 File dir, String name
+			public boolean accept(File dir, String name) {	// accept : 허용 > true를 반환하면 File[] wrongFiles에 포함된다. 매개변수 File dir, String name은 HDD에 저장된 파일을 의미한다.
 				// pathList 			 :  DB에 있는 목록이다.		- 이미 Path
 				// File dir, String name :  HDD에 있는 파일이다.	- File.toPath() 처리로 Path로 변경 후 둘을 비교한다.
 				return pathList.contains(new File(dir, name).toPath()) == false;

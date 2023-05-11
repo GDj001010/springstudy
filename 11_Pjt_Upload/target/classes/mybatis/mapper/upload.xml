@@ -82,8 +82,9 @@
 	
 	<update id="updateUpload" parameterType="UploadDTO">
 		UPDATE UPLOAD
-		   SET UPLOAD_TITLE = #{uploadTitle}
-		   	   UPLOAD_CONTENT = #{uploadContent}
+		   SET UPLOAD_TITLE = #{uploadTitle},
+		   	   UPLOAD_CONTENT = #{uploadContent},
+		   	   MODIFIED_AT = SYSTIMESTAMP
 		 WHERE UPLOAD_NO = #{uploadNo}
 	</update>
 	
