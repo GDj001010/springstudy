@@ -21,7 +21,7 @@
 			type: 'get',
 			url: '${contextPath}/list.json',
 			dataType: 'json',
-			success: function(resData){	// resData = [{정우성}, {전지현}, {설경구}]
+			success: function(resData){	
 				$('#staffList').empty();
 				$.each(resData, function(i, staff){
 					let str = '<tr>';
@@ -41,20 +41,61 @@
 			url: '${contextPath}/add.do',
 			data: $('#frm_add').serialize(),
 			dataType: 'text',
-			success: function(resData){	// resData : 사원 등록이 성공했습니다.
+			success: function(resData){	
 				alert(resData);
 				fnList();
-				$('#sno').val('');			// val : 사용자가 입력한 내용
+				$('#sno').val('');			
 				$('#name').val('');
 				$('#dept').val('');
 			},
-			error: function(jqXHR){	// 예외를 발생시켜서 jqXHR.responseText : 사원 등록이 실패했습니다.
+			error: function(jqXHR){	
 				alert(jqXHR.responseText);
-				$('#sno').val('');			// val : 사용자가 입력한 내용
+				$('#sno').val('');			
 				$('#name').val('');
 				$('#dept').val('');
 			}
 		})
+	}
+	
+	function fnSearch(){
+		$.ajax({
+			type: 'get',
+			url: '${contextPath}/query.json?query=' + $('#query').val(),
+			dataType: 'json',
+			success: function(resData){
+				$('#staffList').empty();
+				let str = '<tr>';
+				str += '<td>' + resData.sno;
+				str += '<td>' + resData.name;
+				str += '<td>' + resData.dept;
+				str += '<td>' + resData.salary;
+				$('#staffList').append(str);
+			},
+			error: function(jqXHR){
+				alert('조회된 사원 정보가 없습니다.');
+				$('#query').val('');	
+			}
+		})
+	}
+	
+	function fnRegSno(){
+		var regSno = /^[0-9]{1,5}$/;
+		if(regSno.test($('#sno').val())){
+			ev.preventDefault();
+		} else{
+			alert('사원번호는 5자리 숫자입니다.');
+			$('#sno').val('');	
+		}
+	}
+	
+	function fnRegDept(){
+		var regDept = /^[가-힣]{3,5}$/;
+		if(regDept.test($('#dept').val())){
+			ev.preventDefault();
+		} else{
+			alert('부서는 3~5자리 한글입니다.');
+			$('#dept').val('');
+		}
 	}
 	
 </script>
@@ -64,9 +105,9 @@
 	<div>
 		<h3>사원등록</h3>
 		<form id="frm_add">
-			<input type="text" name="sno" id="sno"  placeholder="사원번호">
+			<input type="text" name="sno" id="sno"  placeholder="사원번호"  onblur="fnRegSno()">
 			<input type="text" name="name" id="name"  placeholder="사원명">
-			<input type="text" name="dept" id="dept"  placeholder="부서명">
+			<input type="text" name="dept" id="dept"  placeholder="부서명" onblur="fnRegDept()">
 			<input type="button" value="등록" onclick="fnAdd()">
 		</form>
 	</div>

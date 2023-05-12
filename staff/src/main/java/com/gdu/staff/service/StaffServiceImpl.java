@@ -2,7 +2,6 @@ package com.gdu.staff.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -19,13 +18,7 @@ public class StaffServiceImpl implements StaffService {
 
 	@Autowired
 	private StaffMapper staffMapper;
-	/*
-	@Override
-	public List<StaffDTO> getStaffList() {
-		List<StaffDTO> staffList = staffMapper.getStaffList();
-		return staffList;
-	}
-	*/
+	
 	@Override
 	public ResponseEntity<List<StaffDTO>> getStaffList() {
 		List<StaffDTO> staffList = staffMapper.getStaffList();
@@ -35,23 +28,10 @@ public class StaffServiceImpl implements StaffService {
 	}
 	
 	
-	@Override
-	public String addStaff(HttpServletRequest request) {
-		try {
-			String sno = request.getParameter("sno");
-			String name = request.getParameter("name");
-			String dept = request.getParameter("dept");
-			StaffDTO staffDTO = new StaffDTO(sno, name, dept, 0);
-			staffMapper.addStaff(staffDTO);	// 예시) 사원번호가 5 BYTE 초과되거나 중복되거나 null인 경우 예외 발생 
-			
-			return "사원 등록이 성공했습니다.";
-		} catch(Exception e) {
-			return "사원 등록이 실패했습니다.";	// $.ajax의 error로 전달
-		}
-	}
+	
 	
 	@Override
-	public ResponseEntity<String> addStaff1(StaffDTO staffDTO) {
+	public ResponseEntity<String> addStaff(StaffDTO staffDTO) {
 		try {
 			staffMapper.addStaff(staffDTO);
 			return new ResponseEntity<String>("사원 등록이 성공했습니다.", HttpStatus.OK);
@@ -62,7 +42,19 @@ public class StaffServiceImpl implements StaffService {
 	}
 	
 	
-	
+	@Override
+	public ResponseEntity<StaffDTO> getQuery(String query) {
+		try {
+			StaffDTO staffDTO = staffMapper.getQuery(query);
+			HttpHeaders header = new HttpHeaders();
+			header.setContentType(MediaType.APPLICATION_JSON);
+			return new ResponseEntity<StaffDTO>(staffDTO, header, HttpStatus.OK) ;
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 	
 	
