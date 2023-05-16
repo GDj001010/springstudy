@@ -13,6 +13,9 @@
 	<!-- typeAliases 별명 -->
 	<typeAliases>
 		<typeAlias alias="UserDTO" type="com.gdu.app12.domain.UserDTO"/> <!-- mapper에서 사용 domain 패키지에 BbsDTO를 Board로 부르겠다. -->
+		<typeAlias alias="LeaveUserDTO" type="com.gdu.app12.domain.LeaveUserDTO"/>
+		<typeAlias alias="SleepUserDTO" type="com.gdu.app12.domain.SleepUserDTO"/>
+		<typeAlias alias="UserAccessDTO" type="com.gdu.app12.domain.UserAccessDTO"/>
 	</typeAliases>
 	
 	<!-- 환경 설정 environments  DB접속 정보 connection pool
