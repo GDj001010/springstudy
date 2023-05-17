@@ -2,10 +2,15 @@ package com.gdu.app12.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -53,5 +58,37 @@ public class UserController {
     return userService.sendAuthCode(email);
   }
   
+  @PostMapping("/join.do")
+  public void join(HttpServletRequest request, HttpServletResponse response) {
+    userService.join(request, response);
+  }
+  
+  @GetMapping("/login.form")
+  public String loginForm(@RequestHeader("referer") String url, Model model) {
+    
+    // 요청 헤더 referer : 로그인 화면으로 이동하기 직전의 주소를 저장하는 헤더 값
+    model.addAttribute("url", url);
+    
+    return "user/login";
+    
+  }
+  
+  @PostMapping("/login.do")
+  public void login(HttpServletRequest request, HttpServletResponse response) {
+    userService.login(request, response);
+  }
+  
+  @GetMapping("/logout.do")
+  public String requiredLogin_logout(HttpServletRequest request, HttpServletResponse response) {
+    // 로그인이 되어 있는지 확인
+    userService.logout(request, response);
+    return "redirect:/index.do";
+  }
+  
+  @GetMapping("/leave.do")
+  public void requiredLogin_leave(HttpServletRequest request, HttpServletResponse response) {
+    // 로그인이 되어 있는지 확인
+    userService.leave(request, response);
+  }
   
 }

@@ -23,7 +23,7 @@ public class ParameterCheckAOP {
 
 	
 	// 포인트컷(어떤 메소드에 어드바이스(AOP 동작)를 적용할 것인가?)
-	@Pointcut("execution(* com.gdu.app06.controller.*Controller.*ParamCheck(..))")
+	@Pointcut("execution(* com.gdu.app06.controller.*Controller.*ParamCheck(..))") // 컨트롤어의 무슨무슨 메소드 들
 	 public void setPointCut() {
 		// 이 메소드는 이름만 제공하는 역할(아무 이름이나 사용해도 되고, 본문도 필요가 없다.)
 	}

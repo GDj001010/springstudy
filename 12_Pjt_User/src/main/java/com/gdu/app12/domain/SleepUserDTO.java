@@ -22,7 +22,8 @@ public class SleepUserDTO {
 	private String roadAddress;
 	private String jibunAddress;
 	private String detailAddress;
-	private int agreeCode;
+	private String extraAddress;
+	private int agreecode;
 	private String joineAt;
 	private String pwModifiedAt;
 	private String slepAt;

@@ -81,136 +81,278 @@
   }
   
   // 3. 비밀번호 확인
+  function fnCheckPwAgain(){
+    
+    $('#rePw').on('keyup', function(){
+      
+      // 입력된 비밀번호
+      let pw = $('#pw').val();
+      
+      // 재입력한 비밀번호
+      let rePw = $(this).val();
+      
+      // 비밀번호와 재입력한 비밀번호 검사
+      verifyRePw = (rePw != '') && (rePw == pw);
+      if(verifyRePw){
+        $('#msgRePw').text('');
+      } else {
+        $('#msgRePw').text('비밀번호 입력을 확인하세요.');
+      }
+      
+    })
+    
+  }
   
   // 4. 이름
+  function fnCheckName(){
+    
+    $('#name').on('keyup', function(){
+      verifyName = $(this).val() != '';
+    })
+    
+  }
   
   // 5. 휴대전화
+  function fnCheckMobile(){
+    
+    $('#mobile').on('keyup', function(){
+      
+      // 입력한 휴대전화
+      let mobile = $(this).val();
+      
+      // 정규식
+      let regMobile = /^010[0-9]{7,8}$/;
+      
+      // 정규식 검사
+      verifyMobile = regMobile.test(mobile);
+      if(verifyMobile){
+        $('#msgMobile').text('');
+      } else {
+        $('#msgMobile').text('휴대전화 입력을 확인하세요.');        
+      }
+      
+    })
+    
+  }
   
   // 6. 년/월/일
-  
-  // 7. 이메일 검사 및 인증코드 전송
-  function fnCheckEmail(){
-	  
-	  $('#btnGetCode').on('click', function(){
-		
-		  new Promise(function(resolve, reject){
-			  
-			  // 입력한 이메일
-			  let email = $('#email').val();
-			  
-			  // 정규식 "+" 앞의 문자는 한 글자 이상이다, "."은 모든 문자라는 뜻을 가지고 있기에 역슬래쉬로 이스케이프 처리해준다.
-			  let regEmail = /^[a-zA-Z0-9-_]+@[a-zA-Z0-9]{2,}(\.[a-zA-Z]{2,6}){1,2}$/;
-			  //                 gdu_GDJ61   @   naver      .co.kr
-			  //                                            .com
-			  
-			  // 정규식 검사
-			  verifyEmail = regEmail.test(email);
-			  if(verifyEmail == false){
-				  reject(1);  // catch 메소드에 정의된 function을 호출한다, 인수로 1을 전달한다.
-				  return;
-			  }
-			  
-			  // 이메일 중복 체크
-			  $.ajax({
-				  type: 'get',
-				  url: '${contextPath}/user/verifyEmail.do',
-				  data: 'email=' + email,
-				  dataType: 'json',
-				  success: function(resData){   // resData = {"enableEmail": true} 또는 {"enableEmail": false}
-					 if(resData.enableEmail){
-						  resolve();                  // then 메소드에 정의된 function을 호출한다.
-  					} else{
-		  			  reject(2)                   // catch 메소드에 정의된 function을 호출한다, 인수로 2을 전달한다.
-					 }
-			  }
-		  })
-		  
-	  }).then(function(){
-		   
-		   // 입력한 이메일
-		   let email = $('#email').val();
-		  
-		   // 이메일로 인증번호를 보내는 ajax
-		   $.ajax({
-			   type: 'get',
-			   url: '${contextPath}/user/sendAuthCode.do',
-			   data: 'email=' + email,
-			   dataType: 'json',
-			   success: function(resData){   // resData = {"authCode": "6T43G9"} 사용자에게 전송한 인증코드를 의미
-				   
-				   // 사용자가 할 일 : 메일로 받은 인증코드 입력 후 인증하기 버튼을 클릭한 경우
-				   $('#btnVerifyCode').on('click', function(){
-					   verifyEmail = resData.authCode == ('#authCode').val();
-					   if(verifyEmail){    // 사용자에게 전송한 인증코드 == 사용자가 입력한 입력코드값
-						   alert('인증되었습니다.');
-						   
-					   } else {
-						   alert('인증에 실패했습니다.');
-					   }
-				   }) 
-				   
-			   },
-			   error: function(jqXHR){
-				   alert('인증번호가 발송되지 않았습니다.');
-				   verifyEmail = false;
-			   }
-		   })
-		   
-		   
-	  }).catch(function(number){
-		  let msg = '';
-		  switch(number){
-		  case 1:
-			  msg = '이메일 형식이 올바르지 않습니다.';  // 정규식 실패
-			  break;
-		  case 2:
-			  msg = '이미 사용 중인 이메일입니다.';      // 이메일 중복 체크 실패
-			  break;
-		  }
-		  $('#msgEmail').text(msg);
-		  
-		  verifyEmail = false;
-		  
-	  })
-		  
-  })
-	  
-	  /*
-	  new Promise(function(resolve, reject){
-		  
-		  reject(1); // 정규식 실패,  1단계 실패
-		  
-		  $.ajax({
-			  susccess: function(){
-				  resolve();    // 이메일 중복 체크 통과
-				  reject(2);    // 이메일 중복 체크 실패,   2단계 실패
-			  }
-		  })
-		  
-	  }).then(function(){  // resolve() 함수 호출할 때 처리되는 함수(ajax 처리 success처리일 때)
-		  // 인증코드전송
-		  $.ajax({
-			  
-		  })
-	  }).catch(function(1 또는 2){ //  reject() 함수 호출할 때 처리되는 함수(ajax 처리 error처리일 때)
-		  // 정규식 실패로 인한 catch인지 중복 체크 실패로 인한 catch인지 구분을 못 하기 때문에 매개변수를 받는다.
-		  // function 매개변수가 1인 경우 == 정규식 실패 메시지
-		  // function 매개변수가 2인 경우 == 이메일 중복 체크 실패 메시지
-	  })
-  */
+  function fnCreateDate(){
+    
+    // 년도(100년 전 ~ 1년 후)
+    let year = new Date().getFullYear();
+    let strYear = '<option value="">년도</option>';
+    for(let y = year - 100; y <= year + 1; y++){
+      strYear += '<option value="' + y + '">' + y + '</option>';
+    }
+    $('#birthyear').append(strYear);
+    
+    // 월(1 ~ 12월)
+    let strMonth = '<option value="">월</option>';
+    for(let m = 1; m <= 12; m++){
+      if(m < 10){
+        strMonth += '<option value="0' + m + '">' + m + '월</option>';
+      } else {
+        strMonth += '<option value="' + m + '">' + m + '월</option>';
+      }
+    }
+    $('#birthmonth').append(strMonth);
+    
+    // 일(월에 따른 연동)
+    $('#birthdate').append('<option value="">일</option>');
+    
+    $('#birthmonth').on('change', function(){
+      
+      $('#birthdate').empty();
+      $('#birthdate').append('<option value="">일</option>');
+      let endDay = 0;
+      let strDay = '';
+      switch($(this).val()){
+      case '02':
+        endDay = 29; break;
+      case '04':
+      case '06':
+      case '09':
+      case '11':
+        endDay = 30; break;
+      default:
+        endDay = 31; break;
+      }
+      for(let d = 1; d <= endDay; d++){
+        if(d < 10){
+          strDay += '<option value="0' + d + '">' + d + '일</option>';
+        } else {
+          strDay += '<option value="' + d + '">' + d + '일</option>';
+        }
+      }
+      $('#birthdate').append(strDay);
+      
+    });
+    
   }
+  
+//7. 이메일 검사 및 인증코드 전송
+  function fnCheckEmail(){
+    
+    $('#btnGetCode').on('click', function(){
+      
+      // 입력한 이메일
+      let email = $('#email').val();
+      
+      new Promise(function(resolve, reject){
+        
+        // 정규식
+        let regEmail = /^[a-zA-Z0-9-_]+@[a-zA-Z0-9]{2,}(\.[a-zA-Z]{2,6}){1,2}$/;
+        //
+        //                  gt_min     @ naver         (.com)
+        //                                             (.co)(.kr)
+        
+        // 정규식 검사
+        verifyEmail = regEmail.test(email);
+        if(verifyEmail == false){
+          reject(1);  // catch 메소드에 정의된 function을 호출한다. 인수로 1을 전달한다.
+          return;
+        }
+        
+        // 이메일 중복 체크
+        $.ajax({
+          type: 'get',
+          url: '${contextPath}/user/verifyEmail.do',
+          data: 'email=' + email,
+          dataType: 'json',
+          success: function(resData){  // resData = {"enableEmail": true} 또는 {"enableEmail": false}
+            if(resData.enableEmail){
+              resolve();  // then 메소드에 정의된 function을 호출한다.
+            } else {
+              reject(2);  // catch 메소드에 정의된 function을 호출한다. 인수로 2을 전달한다.
+            }
+          }
+        })
+        
+      }).then(function(){
+        
+        // 이메일로 인증번호를 보내는 ajax
+        $.ajax({
+          type: 'get',
+          url: '${contextPath}/user/sendAuthCode.do',
+          data: 'email=' + email,
+          dataType: 'json',
+          success: function(resData){  // resData = {"authCode": "6T43G9"}  사용자에게 전송한 인증코드를 의미
+            
+            alert(email + "으로 인증코드를 전송했습니다.");
+            
+            // 메일로 받은 인증코드 입력 후 인증하기 버튼을 클릭한 경우
+            $('#btnVerifyCode').on('click', function(){
+              
+              verifyEmail = (resData.authCode == $('#authCode').val());  // 사용자에게 전송한 인증코드 == 사용자가 입력한 인증코드값
+              if(verifyEmail) {
+                alert('인증되었습니다.');
+              } else {
+                alert('인증에 실패했습니다.');
+              }
+              
+            })
+            
+          },
+          error: function(jqXHR){
+            alert('인증번호가 발송되지 않았습니다.');
+            verifyEmail = false;
+          }
+        })
+        
+      }).catch(function(number){
+        
+        let msg = '';
+        switch(number){
+        case 1:
+          msg = '이메일 형식이 올바르지 않습니다.';  // 정규식 실패
+          break;
+        case 2:
+          msg = '이미 사용 중인 이메일입니다.';      // 이메일 중복 체크 실패
+          break;
+        }
+        $('#msgEmail').text(msg);
+        verifyEmail = false;
+        
+      })
+      
+    })
+    
+  }
+  /*
+  new Promise(function(resolve, reject){
+    
+    reject(1);  // 정규식 실패
+    
+    $.ajax({
+      success: function(){
+        resolve();   // 이메일 중복 체크 통과
+        reject(2);   // 이메일 중복 체크 실패
+      }
+    })
+    
+  }).then(function(){   // resolve() 함수 호출할 때 처리되는 함수(ajax 처리 success 했을 때)
+    // 인증코드전송
+    $.ajax({
+      
+    })
+  }).catch(function(number){  // reject() 함수 호출할 때 처리되는 함수(ajax 처리 error 했을 때)
+    // number == 1인 경우 정규식 실패 메시지
+    // number == 2인 경우 이메일 중복 체크 실패 메시지
+  })
+  */
+  
+  // 8. submit (회원가입)
+  function fnJoin(){
+
+    $('#frmJoin').on('submit', function(event){
+      
+      if(verifyId == false){
+        alert('아이디를 확인하세요.');
+        event.preventDefault();
+        return;
+      } else if(verifyPw == false || verifyRePw == false){
+        alert('비밀번호를 확인하세요.');
+        event.preventDefault();
+        return;
+      } else if(verifyName == false){
+        alert('이름을 확인하세요.');
+        event.preventDefault();
+        return;
+      } else if(verifyMobile == false){
+        alert('휴대전화번호를 확인하세요.');
+        event.preventDefault();
+        return;
+      } else if($('#birthyear').val() == '' || $('#birthmonth').val() == '' || $('#birthdate').val() == ''){
+          alert('생년월일을 확인하세요.');
+          event.preventDefault();
+          return;
+      } else if(verifyEmail == false){
+        alert('가입을 위해서 이메일 인증이 필요합니다.');
+        event.preventDefault();
+        return;
+      }
+      
+    })
+    
+  }
+  
   // 함수 호출
   $(function(){
-	  fnCheckId();
-	  fnCheckPw();
-	  fnCheckEmail();
+    fnCheckId();
+    fnCheckPw();
+    fnCheckPwAgain();
+    fnCheckName();
+    fnCheckMobile();
+    fnCreateDate();
+    fnCheckEmail();
+    fnJoin();
   })
   
 </script>
 </head>
 <body>
 
-  <div>
+   <div>
   
     <h1>회원 가입</h1>
   
@@ -221,8 +363,9 @@
     <form id="frmJoin" method="post" action="${contextPath}/user/join.do">
     
       <!-- agree.jsp에서 전달된 location, event 속성 -->
-      <input type="hidden" name="location" value="${location }">
-      <input type="hidden" name="event" value="${event }">
+      <input type="hidden" name="location" value="${location}">
+      <input type="hidden" name="event" value="${event}">
+    
       <div>
         <label for="id">아이디*</label>
         <input type="text" name="id" id="id">
@@ -264,16 +407,16 @@
     
       <div>
         <label for="birthyear">생년월일*</label>
-        <select name="birthyear" id="birthyear">100년~내년목록만들기</select>
-        <select name="birthmonth" id="birthmonth">1~12일</select>
-        <select name="birthdate" id="birthdate">1~31일(월참고)</select>       
+        <select name="birthyear" id="birthyear"></select>
+        <select name="birthmonth" id="birthmonth"></select>
+        <select name="birthdate" id="birthdate"></select>
       </div>
       
       <div>
         <input type="text" onclick="execDaumPostcode()" name="postcode" id="postcode" placeholder="우편번호" readonly="readonly">
         <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
-        <input type="text" name="loadAddress" id="roadAddress" placeholder="도로명주소">
-        <input type="text" name="jibunAddress" id="jibunAddress" placeholder="지번주소">
+        <input type="text" name="roadAddress" id="roadAddress" placeholder="도로명주소">
+        <input type="text" name="jibunAddress" id="jibunAddress" placeholder="지번주소"><br>
         <span id="guide" style="color:#999;display:none"></span>
         <input type="text" name="detailAddress" id="detailAddress" placeholder="상세주소">
         <input type="text" name="extraAddress" id="extraAddress" placeholder="참고항목">
