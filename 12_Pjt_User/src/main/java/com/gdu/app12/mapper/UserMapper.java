@@ -29,4 +29,7 @@ public interface UserMapper {
 	// 
 	public int insertLeaveUser(LeaveUserDTO leaveUserDTO);
 	public int deleteUser(String id);
+	
+	public int insertSleepUser();
+	public int deleteUserForSleep();                   
 }
