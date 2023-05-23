@@ -90,7 +90,6 @@ public class MovieServiceImpl implements MovieService {
       if(file.exists() == false) {
         file.createNewFile();
       }
-      file.canWrite("코미디 검색 결과가 없습니다.");
     } else {
       // fileWriter = new FileWriter("코미디.txt");
       file = new File("코미디.txt");
@@ -107,7 +106,6 @@ public class MovieServiceImpl implements MovieService {
         sb.append("개요: " + list.get(i).getDescription());
         
       }
-      file.canWrite(sb.toString());
       
         
        // fileWriter.write(sb.toString());
