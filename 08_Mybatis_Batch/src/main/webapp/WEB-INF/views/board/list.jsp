@@ -33,7 +33,7 @@
     let chkOne = $('.chk_one');  // 모든 개별선택
     chkOne.on('click', function(){
       let chkCnt = 0;
-      for(let i = 0; i < chkOne.length; i++){
+      for(let i = 0; i < chkOne.length; i++){ 
         chkCnt += $(chkOne[i]).prop('checked');
       }
       $('#chk_all').prop('checked', chkCnt == chkOne.length);
