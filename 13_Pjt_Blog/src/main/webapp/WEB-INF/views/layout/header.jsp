@@ -16,6 +16,7 @@
 <script src="${contextPath }/resources/summernote-0.8.18-dist/lang/summernote-ko-KR.min.js"></script>
 <link rel="stylesheet" href="${contextPath }/resources/summernote-0.8.18-dist/summernote-lite.min.css"/>
 <link rel="stylesheet" href="${contextPath}/resources/css/header.css?dt=${dt}"/>
+<link rel="stylesheet" href="${contextPath}/resources/css/init.css?dt=${dt}""/>
 <script>
   function fnLogout(){
 	  location.href = '${contextPath}/user/logout.do';

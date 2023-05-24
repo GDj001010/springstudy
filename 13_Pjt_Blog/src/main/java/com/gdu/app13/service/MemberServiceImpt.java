@@ -29,6 +29,7 @@ public class MemberServiceImpt implements MemberService {
     if(memberDTO != null) {
       HttpSession session = request.getSession();
       session.setAttribute("loginId", id);
+      session.setAttribute("loginNo", memberDTO.getMemberNo());
     }
 
   }
