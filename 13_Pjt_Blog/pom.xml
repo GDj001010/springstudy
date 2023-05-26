@@ -16,6 +16,13 @@
 
   <dependencies>
     
+    <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>1.15.4</version>
+    </dependency>
+    
     <!-- 이메일 전송 (javax.mail + spring-context-support) -->
     <!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
     <dependency>

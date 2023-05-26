@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SummernoteImageDTO {
 
-  private String fileesystemName;
+  private String filesystemName;
   private int blogNo;
   
 }
